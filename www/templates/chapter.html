@@ -1,0 +1,9 @@
+<ion-view view-title="{{title}}">
+  <ion-content class="padding">
+
+    <button class="button button-large button-stable" ng-repeat="chapter in fullBook.chapters" ng-click="changePage(fullBook.book, chapter.chapter)">
+      {{chapter.chapter}}
+    </button>
+
+  </ion-content>
+</ion-view>

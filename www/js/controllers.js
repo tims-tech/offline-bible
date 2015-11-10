@@ -1,9 +1,16 @@
 angular.module('starter.controllers', [])
 
-  .controller('SalvationCtrl', function ($scope) {
+  .controller('SalvationCtrl', function ($scope, settings) {
+    $scope.$watch(function () {
+      return settings.getStyle()
+    }, function (newVal, oldVal) {
+      if (typeof newVal !== 'undefined') {
+        $scope.curStyle = settings.getStyle();
+      }
+    });
   })
 
-  .controller('BibleCtrl', function ($scope, $state) {
+  .controller('BibleCtrl', function ($scope, $state, settings) {
     $scope.bible = ["New Testament", "Old Testament"];
 
     $scope.changePage = function (choice) {
@@ -11,7 +18,7 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('BibleBooksCtrl', function ($scope, $stateParams, getBible, $state) {
+  .controller('BibleBooksCtrl', function ($scope, $stateParams, getBible, $state, settings) {
     if ($stateParams.testament == "New Testament") {
       $scope.title = "New Testament Books";
       getBible.newTestament().then(function (books) {
@@ -29,7 +36,7 @@ angular.module('starter.controllers', [])
     };
   })
 
-  .controller('BibleChaptersCtrl', function ($scope, $stateParams, getBible, $state) {
+  .controller('BibleChaptersCtrl', function ($scope, $stateParams, getBible, $state, settings) {
     $scope.title = $stateParams.book;
     getBible.getBook($stateParams.book).then(function (fullBook) {
       console.log(fullBook);
@@ -42,31 +49,48 @@ angular.module('starter.controllers', [])
 
   })
 
-  .controller('BibleTextCtrl', function ($scope, $stateParams, getBible) {
+  .controller('BibleTextCtrl', function ($scope, $stateParams, getBible, settings) {
     $scope.title = $stateParams.book + ' Chapter: ' + $stateParams.chapter;
-   $scope.fullChapter = getBible.getChapter($stateParams.chapter);
+    $scope.fullChapter = getBible.getChapter($stateParams.chapter);
     console.log('BibleTextCtrl');
     console.log($stateParams);//:book/:chapter
-    console.log( $scope.fullChapter);
+    console.log($scope.fullChapter);
   })
 
-  .controller('SettingsCtrl', function ($scope) {
-    $scope.settings = {
-      enableFriends: true
+  .controller('SettingsCtrl', function ($scope, settings) {
+
+    $scope.nMod = {
+      nightMode: false
     };
 
-    var bool = true;
-    $scope.change = function(){
 
-     if(bool){
-       bool = false;
-       return 'positive';
-     } else{
-       bool = true;
-       return 'dark';
-     }
+    $scope.them = 'bar-stable';
+
+    $scope.curStyle = settings.getStyle();
+
+    var sizeer = 16;
+
+    $scope.$watch("nMod.nightMode", function (newValue, oldValue) {
+      if ($scope.nMod.nightMode) {
+        $scope.them = 'bar-dark';
+      } else {
+        $scope.them = 'bar-stable';
+      }
+      $scope.curStyle = settings.setStyle(newValue);
+    });
+
+    $scope.$watch("nMod.changed", function (newValue, oldValue) {
+      console.log($scope.curStyle);
+      $scope.curStyle = settings.getStyle(newValue);
+    });
+
+    $scope.plusSize = function () {
+      $scope.curStyle = settings.incTextSize();
     };
 
+    $scope.minSize = function () {
+      $scope.curStyle = settings.decTextSize();
+    };
 
 
   });

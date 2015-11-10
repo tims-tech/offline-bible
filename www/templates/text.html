@@ -6,9 +6,9 @@
 -->
 <ion-view view-title="{{title}}">
   <ion-content class="padding">
-    <div ng-repeat="(key, value) in fullChapter.verses">
+    <span ng-repeat="(key, value) in fullChapter.verses">
          {{key + 1}} {{": "+ value[key+1]}}
-    </div>
+    </span>
 
   </ion-content>
 </ion-view>

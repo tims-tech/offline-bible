@@ -34,7 +34,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       .state('tab', {
         url: '/tab',
         abstract: true,
-        templateUrl: 'templates/tabs.html'
+        templateUrl: 'templates/tabs.html',
+        controller: function($scope, settings){
+          $scope.$watch(function () { return settings.getStyle().main }, function (newVal, oldVal) {
+            if (typeof newVal !== 'undefined') {
+              if(newVal['background-color'] == '#444'){
+                $scope.them = 'positive tabs-dark';
+              } else{$scope.them = 'active-positive';}
+            }
+          });
+        }
       })
 
       // Each tab has its own nav history stack:

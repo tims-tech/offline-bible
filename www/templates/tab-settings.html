@@ -1,9 +1,38 @@
-<ion-view view-title="Settings">
+<ion-view view-title="Settings" ng-style="curStyle.main">
   <ion-content>
-    <ion-list>
-    <ion-toggle  ng-model="settings.enableFriends">
-        Enable Friends
+    <ion-list >
+    <ion-toggle  ng-model="nMod.nightMode" ng-style="curStyle.main">
+        Enable Night-Mode
     </ion-toggle>
+
+      <button class="button button-full button-stable" ng-style="curStyle.listItem">
+        Font size
+      </button>
+      <button class="button icon ion-android-remove" ng-style="curStyle.button" ng-click="minSize()"></button>
+
+      <button class="button icon ion-android-add" style="float:right" ng-style="curStyle.button" ng-click="plusSize()" ></button>
+
     </ion-list>
   </ion-content>
 </ion-view>
+
+
+<!--
+<label class="item item-input item-select">
+  <div class="input-label">
+    Select Text Color  <i class="icon ion-arrow-right-c"></i>
+  </div>
+  <select
+    ng-model="textColor"
+    ng-change="onSel(textColor)">
+    <option value="#000000" >Black</option>
+    <option value="#778899" >Light Slate Gray</option>
+    <option value="#808080" >Gray</option>
+    <option value="#808000" >Olive</option>
+    <option value="#FFFFFF" >White</option>
+    <option value="#FFEBCD" >Blanched Almond</option>
+    <option value="#F5F5F5" >White Smoke</option>
+    <option value="#FFDEAD" >Navajo White</option>
+    <option value="#FFFFF0" >Ivory</option>
+  </select>
+</label>-->

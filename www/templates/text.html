@@ -5,9 +5,10 @@
   The Friends service returns an array of friend data
 -->
 <ion-view view-title="{{title}}">
-  <ion-content class="padding">
+  <ion-content class="padding" ng-style="curStyle.main">
+
     <span ng-repeat="(key, value) in fullChapter.verses">
-         {{key + 1}} {{": "+ value[key+1]}}
+         <p style="line-height: 160%;" > <span ng-style="curStyle.verse.number">{{key + 1}}</span> {{": "+ value[key+1]}}</p>
     </span>
 
   </ion-content>

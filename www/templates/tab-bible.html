@@ -1,11 +1,10 @@
 <ion-view view-title="Holy Bible - King James Version">
-  <ion-content>
+  <ion-content ng-style="curStyle.main">
     <ion-list>
-      <ion-item ng-repeat="t in bible" ng-click="changePage(t)">
+      <ion-item ng-style="curStyle.listItem" ng-repeat="t in bible" ng-click="changePage(t)">
         <h2>{{t}}</h2>
       </ion-item>
     </ion-list>
-
   </ion-content>
 </ion-view>
 

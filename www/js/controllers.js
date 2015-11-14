@@ -1,12 +1,9 @@
 angular.module('starter.controllers', [])
 
   .controller('SalvationCtrl', function ($scope, settings) {
-    $scope.$watch(function () {
-      return settings.getStyle()
-    }, function (newVal, oldVal) {
-      if (typeof newVal !== 'undefined') {
-        $scope.curStyle = settings.getStyle();
-      }
+    // $scope.curStyle = settings.getStyle();
+    $scope.$on('css:changed', function () {
+      $scope.curStyle = settings.getStyle();
     });
   })
 
@@ -16,9 +13,15 @@ angular.module('starter.controllers', [])
     $scope.changePage = function (choice) {
       $state.go('tab.books', {testament: choice});
     };
+
+    $scope.curStyle = settings.getStyle();
+    $scope.$on('css:changed', function () {
+      $scope.curStyle = settings.getStyle();
+    });
   })
 
   .controller('BibleBooksCtrl', function ($scope, $stateParams, getBible, $state, settings) {
+
     if ($stateParams.testament == "New Testament") {
       $scope.title = "New Testament Books";
       getBible.newTestament().then(function (books) {
@@ -29,32 +32,60 @@ angular.module('starter.controllers', [])
       $scope.bible = getBible.oldTestament().then(function (books) {
         $scope.bible = books;
       });
+    }else{
+        $state.go('tab.chapters', {book: $stateParams.testament});
     }
 
     $scope.changePage = function (book) {
       $state.go('tab.chapters', {book: book});
     };
+
+    $scope.curStyle = settings.getStyle();
+    $scope.$on('css:changed', function () {
+      $scope.curStyle = settings.getStyle();
+    });
   })
 
   .controller('BibleChaptersCtrl', function ($scope, $stateParams, getBible, $state, settings) {
     $scope.title = $stateParams.book;
-    getBible.getBook($stateParams.book).then(function (fullBook) {
-      console.log(fullBook);
-      $scope.fullBook = fullBook;
-    });
+    if (getBible.isBibleLoaded() && getBible.currentBook() == $stateParams.book) {
+      $scope.fullBook = getBible.Bible();
+    } else{
+      getBible.getBook($stateParams.book).then(function (fullBook) {
+        $scope.fullBook = fullBook;
+      });
+    }
 
     $scope.changePage = function (book, chapter) {
       $state.go('tab.text', {book: book, chapter: chapter});
     };
 
+    $scope.curStyle = settings.getStyle();
+    $scope.$on('css:changed', function () {
+      $scope.curStyle = settings.getStyle();
+    });
+
   })
 
-  .controller('BibleTextCtrl', function ($scope, $stateParams, getBible, settings) {
+  .controller('BibleTextCtrl', function ($window,$location, $scope, $stateParams, getBible, settings) {
+
     $scope.title = $stateParams.book + ' Chapter: ' + $stateParams.chapter;
-    $scope.fullChapter = getBible.getChapter($stateParams.chapter);
-    console.log('BibleTextCtrl');
-    console.log($stateParams);//:book/:chapter
-    console.log($scope.fullChapter);
+
+    if (!getBible.isBibleLoaded()) {
+      console.log($stateParams);
+      console.log(getBible.isBibleLoaded());
+      getBible.getBook($stateParams.book).then(function (fullBook) {
+        $scope.fullChapter = getBible.getChapter($stateParams.chapter);
+      });
+    }else{
+      $scope.fullChapter = getBible.getChapter($stateParams.chapter);
+    }
+
+    $scope.curStyle = settings.getStyle();
+    $scope.$on('css:changed', function () {
+      $scope.curStyle = settings.getStyle();
+    });
+
   })
 
   .controller('SettingsCtrl', function ($scope, settings) {
@@ -62,7 +93,6 @@ angular.module('starter.controllers', [])
     $scope.nMod = {
       nightMode: false
     };
-
 
     $scope.them = 'bar-stable';
 
@@ -77,11 +107,6 @@ angular.module('starter.controllers', [])
         $scope.them = 'bar-stable';
       }
       $scope.curStyle = settings.setStyle(newValue);
-    });
-
-    $scope.$watch("nMod.changed", function (newValue, oldValue) {
-      console.log($scope.curStyle);
-      $scope.curStyle = settings.getStyle(newValue);
     });
 
     $scope.plusSize = function () {

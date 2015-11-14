@@ -4,7 +4,8 @@ angular.module('starter.services', [])
     // Might use a resource here that returns a JSON array
     var bible = {};
     bible.loaded = false;
-    bible.bookName = false;
+    bible.bNamesLoaded = false;
+    bible.curBookName = 'none';
     /**
      * the books of the Bible are loaded into an array
      */
@@ -12,7 +13,7 @@ angular.module('starter.services', [])
       return $http.get("..\\bible\\Books.json")
         .then(function (data) {//if success than do
           bible.books = data.data;
-          bible.bookName = true;
+          bible.bNamesLoaded = true;
           return data.data;
         }, function (reason) {// if fail than do
           // maybe tell the user what happened...
@@ -31,10 +32,10 @@ angular.module('starter.services', [])
       return $http.get("..\\bible\\kjv\\" + book + ".json")
         .then(function (data) {//if success than do
           bible.curBook = data.data;
+          bible.curBookName = bible.curBook.book;
           bible.loaded = true;
           return data.data;
         }, function (reason) {// if fail than do
-
           return "failed to load book";
         });
     }
@@ -67,7 +68,19 @@ angular.module('starter.services', [])
     }
 
     function Bible() {
-      return bible;
+      return bible.curBook;
+    }
+
+    function areBooksLoaded() {
+      return bible.bNamesLoaded;
+    }
+
+    function isBibleLoaded() {
+      return bible.loaded;
+    }
+
+    function currentBook() {
+      return bible.curBookName;
     }
 
     return {
@@ -75,13 +88,17 @@ angular.module('starter.services', [])
       "Bible": Bible,
       newTestament: newTestament,
       oldTestament: oldTestament,
-      getChapter: getChapter
+      getChapter: getChapter,
+      isBibleLoaded: isBibleLoaded,
+      areBooksLoaded: areBooksLoaded,
+      currentBook:currentBook
     }
 
   }])
 
-  .factory('settings', function () {
-
+  .factory('settings', function ($rootScope) {
+//NOTE any css changes should call $rootScope.$broadcast('css:change'); this can optionally
+//be configured to pass an object like so $rootScope.$broadcast('css:change',css);
     /*
      Set all defaults here variables here
      */
@@ -90,6 +107,7 @@ angular.module('starter.services', [])
     style.size = 16;
 
     var css = {};
+    var night = false;
 
     css.main = {
       'background-color': '#fff',
@@ -97,6 +115,8 @@ angular.module('starter.services', [])
       'font-size': '16px'
     };
 
+    css.verse = {};
+    css.verse.number = {};
     css.smallText = {'font-size': (style.size - 4) + 'px'};
     css.header = {};
     css.noneTextBG = {};
@@ -136,12 +156,28 @@ angular.module('starter.services', [])
      All getter and setter functions here
      */
 
+    /**
+     *
+     * @returns {number|*} this IS a number and NOT a css abject -- this way the number can easily be read and modified
+     */
     function getTextSize() {
       return style.size;
     }
 
+    /**
+     *
+     * @returns {{}} the css object that holds the different set of style
+     */
     function getStyle() {
       return css;
+    }
+
+    /**
+     *
+     * @returns {boolean} if true than night mode is set else day mode active
+     */
+    function getNight() {
+      return night;
     }
 
     /**
@@ -159,6 +195,7 @@ angular.module('starter.services', [])
     }
 
     function setNight() {
+      night = true;
       css.main['background-color'] = '#444';
       css.main['color'] = '#fff';
       css.header['background-color'] = '#2C2C2C';
@@ -168,10 +205,14 @@ angular.module('starter.services', [])
       css.listItem['background-color'] = '#387ef5';
       css.listItem['color'] = '#FFFFFF';
       css.noneTextBG['background-color'] = '#2F4F4F';
+      // css.verse.number['background-color'] = '#444';
+      css.verse.number['color'] = '#D2691E';
+      $rootScope.$broadcast('css:changed');//this lets all of the controllers know that the css object has changed
     }
 
     function setDay() {
-      css.main['background-color'] = '!default';
+      night = false;
+      css.main['background-color'] = '#FFF8DC';
       css.main['color'] = '!default';
       css.header['background-color'] = '!default';
       css.header['color'] = '!default';
@@ -180,6 +221,9 @@ angular.module('starter.services', [])
       css.listItem['background-color'] = '!default';
       css.listItem['color'] = '!default';
       css.noneTextBG['background-color'] = '!default';
+      //css.verse.number['background-color'] = '!default';
+      css.verse.number['color'] = '#D2691E';
+      $rootScope.$broadcast('css:changed');//this lets all of the controllers know that the css object has changed
     }
 
     /**
@@ -191,6 +235,8 @@ angular.module('starter.services', [])
       css.main['font-size'] = style.size + 'px';
       css.listItem['font-size'] = style.size + 'px';
       css.button['font-size'] = style.size + 'px';
+      css.verse.number['font-size'] = style.size + 'px';
+      $rootScope.$broadcast('css:changed');//this lets all of the controllers know that the css object has changed
     }
 
 
@@ -199,6 +245,7 @@ angular.module('starter.services', [])
       "decTextSize": decTextSize,
       getTextSize: getTextSize,
       setStyle: setStyle,
-      getStyle: getStyle
+      getStyle: getStyle,
+      getNight: getNight
     }
   });

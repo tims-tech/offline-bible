@@ -7,8 +7,8 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
-  .run(function($ionicPlatform) {
-    $ionicPlatform.ready(function() {
+  .run(function ($ionicPlatform) {
+    $ionicPlatform.ready(function () {
       // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
       // for form inputs)
       if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -22,7 +22,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     });
   })
 
-  .config(function($stateProvider, $urlRouterProvider) {
+  .config(function ($stateProvider, $urlRouterProvider) {
 
     // Ionic uses AngularUI Router which uses the concept of states
     // Learn more here: https://github.com/angular-ui/ui-router
@@ -30,17 +30,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     // Each state's controller can be found in controllers.js
     $stateProvider
 
-      // setup an abstract state for the tabs directive
+    // setup an abstract state for the tabs directive
       .state('tab', {
         url: '/tab',
         abstract: true,
         templateUrl: 'templates/tabs.html',
-        controller: function($scope, settings){
-          $scope.$watch(function () { return settings.getStyle().main }, function (newVal, oldVal) {
-            if (typeof newVal !== 'undefined') {
-              if(newVal['background-color'] == '#444'){
-                $scope.them = 'positive tabs-dark';
-              } else{$scope.them = 'active-positive';}
+        controller: function ($scope, settings) {
+          $scope.$on('css:changed', function () {
+            if (settings.getNight()) {
+              $scope.them = 'positive tabs-dark';
+            } else {
+              $scope.them = 'active-positive';
             }
           });
         }

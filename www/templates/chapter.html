@@ -1,7 +1,7 @@
 <ion-view view-title="{{title}}">
-  <ion-content class="padding">
+  <ion-content class="padding" ng-style="curStyle.main">
 
-    <button class="button button-large button-stable" ng-repeat="chapter in fullBook.chapters" ng-click="changePage(fullBook.book, chapter.chapter)">
+    <button class="button button-large button-stable" style="font-weight: bold;" ng-style="curStyle.button" ng-repeat="chapter in fullBook.chapters" ng-click="changePage(fullBook.book, chapter.chapter)">
       {{chapter.chapter}}
     </button>
 

@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
   .controller('SalvationCtrl', function ($scope, settings) {
-    // $scope.curStyle = settings.getStyle();
+     $scope.curStyle = settings.getStyle();
     $scope.$on('css:changed', function () {
       $scope.curStyle = settings.getStyle();
     });
@@ -19,7 +19,7 @@ angular.module('starter.controllers', [])
       $scope.curStyle = settings.getStyle();
     });
   })
-
+  
   .controller('BibleBooksCtrl', function ($scope, $stateParams, getBible, $state, settings) {
 
     if ($stateParams.testament == "New Testament") {
@@ -80,6 +80,11 @@ angular.module('starter.controllers', [])
     }else{
       $scope.fullChapter = getBible.getChapter($stateParams.chapter);
     }
+
+    $scope.goodText = function(text){
+      return text;
+      //return getBible.cleanString(text);
+    };
 
     $scope.curStyle = settings.getStyle();
     $scope.$on('css:changed', function () {

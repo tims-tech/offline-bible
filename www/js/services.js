@@ -27,7 +27,7 @@ angular.module('starter.services', [])
      */
     function getBook(book) {
 
-      book = book.replace(/\s/g, '');
+      book = book.replace(/\s/g, '');// takes spaces out of the string
 
       return $http.get("..\\bible\\kjv\\" + book + ".json")
         .then(function (data) {//if success than do
@@ -38,6 +38,19 @@ angular.module('starter.services', [])
         }, function (reason) {// if fail than do
           return "failed to load book";
         });
+    }
+
+      /**
+       * @param unsafe a string that might contain special characters that the user wants to show as normal text
+       * @returns {*} a string that has all special characters escaped.
+       */
+    function cleanString(unsafe){
+        return unsafe
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
     }
 
     /**
@@ -86,12 +99,13 @@ angular.module('starter.services', [])
     return {
       "getBook": getBook,
       "Bible": Bible,
-      newTestament: newTestament,
-      oldTestament: oldTestament,
-      getChapter: getChapter,
-      isBibleLoaded: isBibleLoaded,
-      areBooksLoaded: areBooksLoaded,
-      currentBook:currentBook
+      "newTestament": newTestament,
+      "oldTestament": oldTestament,
+      "getChapter": getChapter,
+      "isBibleLoaded": isBibleLoaded,
+      "areBooksLoaded": areBooksLoaded,
+      "currentBook":currentBook,
+      "cleanString":cleanString
     }
 
   }])
@@ -122,6 +136,8 @@ angular.module('starter.services', [])
     css.noneTextBG = {};
     css.listItem = {};
     css.button = {};
+
+    setDay();
 
     /*
      All Action Functions here
@@ -202,7 +218,7 @@ angular.module('starter.services', [])
       css.header['color'] = '#fe9241';
       css.button['background-color'] = '#696969';
       css.button['color'] = '#D2691E';
-      css.listItem['background-color'] = '#387ef5';
+      css.listItem['background-color'] = '#C0C0C0';
       css.listItem['color'] = '#FFFFFF';
       css.noneTextBG['background-color'] = '#2F4F4F';
       // css.verse.number['background-color'] = '#444';
@@ -243,9 +259,9 @@ angular.module('starter.services', [])
     return {
       "incTextSize": incTextSize,
       "decTextSize": decTextSize,
-      getTextSize: getTextSize,
-      setStyle: setStyle,
-      getStyle: getStyle,
-      getNight: getNight
+      "getTextSize": getTextSize,
+      "setStyle": setStyle,
+      "getStyle": getStyle,
+      "getNight": getNight
     }
   });

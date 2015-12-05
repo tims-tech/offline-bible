@@ -8,7 +8,7 @@
   <ion-content class="padding" ng-style="curStyle.main">
 
     <span ng-repeat="(key, value) in fullChapter.verses">
-         <p style="line-height: 160%;" > <span ng-style="curStyle.verse.number">{{key + 1}}</span> {{": "+ value[key+1]}}</p>
+         <p style="line-height: 160%;" > <span ng-style="curStyle.verse.number">{{key + 1}}</span> {{": "+ goodText(value[key+1])}}</p>
     </span>
 
   </ion-content>

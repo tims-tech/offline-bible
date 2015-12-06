@@ -6,11 +6,17 @@ angular.module('starter.services', [])
     bible.loaded = false;
     bible.bNamesLoaded = false;
     bible.curBookName = 'none';
+    var path = "";
+
+/*    if (ionic.Platform.isAndroid()) {
+      path = "/android_asset/www/";
+    }*/
+
     /**
      * the books of the Bible are loaded into an array
      */
     function getBookNames() {
-      return $http.get("..\\bible\\Books.json")
+      return $http.get(path + "/android_asset/www/bible/Books.json")
         .then(function (data) {//if success than do
           bible.books = data.data;
           bible.bNamesLoaded = true;
@@ -29,7 +35,7 @@ angular.module('starter.services', [])
 
       book = book.replace(/\s/g, '');// takes spaces out of the string
 
-      return $http.get("..\\bible\\kjv\\" + book + ".json")
+      return $http.get(path + "/android_asset/www/bible/kjv/" + book + ".json")
         .then(function (data) {//if success than do
           bible.curBook = data.data;
           bible.curBookName = bible.curBook.book;
@@ -40,17 +46,17 @@ angular.module('starter.services', [])
         });
     }
 
-      /**
-       * @param unsafe a string that might contain special characters that the user wants to show as normal text
-       * @returns {*} a string that has all special characters escaped.
-       */
-    function cleanString(unsafe){
-        return unsafe
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;");
+    /**
+     * @param unsafe a string that might contain special characters that the user wants to show as normal text
+     * @returns {*} a string that has all special characters escaped.
+     */
+    function cleanString(unsafe) {
+      return unsafe
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
     /**
@@ -104,8 +110,8 @@ angular.module('starter.services', [])
       "getChapter": getChapter,
       "isBibleLoaded": isBibleLoaded,
       "areBooksLoaded": areBooksLoaded,
-      "currentBook":currentBook,
-      "cleanString":cleanString
+      "currentBook": currentBook,
+      "cleanString": cleanString
     }
 
   }])

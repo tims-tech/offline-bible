@@ -19,7 +19,7 @@ angular.module('starter.controllers', [])
       $scope.curStyle = settings.getStyle();
     });
   })
-  
+
   .controller('BibleBooksCtrl', function ($scope, $stateParams, getBible, $state, settings) {
 
     if ($stateParams.testament == "New Testament") {

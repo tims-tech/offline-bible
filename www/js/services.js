@@ -6,7 +6,7 @@ angular.module('starter.services', [])
     bible.loaded = false;
     bible.bNamesLoaded = false;
     bible.curBookName = 'none';
-    var path = "";
+    //var path = "";
 
 /*    if (ionic.Platform.isAndroid()) {
       path = "/android_asset/www/";
@@ -16,7 +16,7 @@ angular.module('starter.services', [])
      * the books of the Bible are loaded into an array
      */
     function getBookNames() {
-      return $http.get(path + "/android_asset/www/bible/Books.json")
+      return $http.get("/android_asset/www/bible/Books.json")
         .then(function (data) {//if success than do
           bible.books = data.data;
           bible.bNamesLoaded = true;
@@ -35,7 +35,7 @@ angular.module('starter.services', [])
 
       book = book.replace(/\s/g, '');// takes spaces out of the string
 
-      return $http.get(path + "/android_asset/www/bible/kjv/" + book + ".json")
+      return $http.get("/android_asset/www/bible/kjv/" + book + ".json")
         .then(function (data) {//if success than do
           bible.curBook = data.data;
           bible.curBookName = bible.curBook.book;

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="com.ionicframework.offlinebible917390" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.tim-dev.offlinebible917390" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Offline Bible</name>
   <description>
         A Bible that is ready to go as soon as you open it.
     </description>
-  <author email="hi@ionicframework" href="http://ionicframework.com/">
+  <author email="timspaint@myway.com" href="https://github.com/tims-tech">
       Tim B
     </author>
   <content src="index.html"/>

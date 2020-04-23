@@ -1,13 +1,19 @@
 # Offline Bible
 Bible mobile app.
 
+Key app locations for development:
+* [Anguler HTML files](https://github.com/tims-tech/offline-bible/tree/master/www/templates)
+* [Anguler programming logic](https://github.com/tims-tech/offline-bible/tree/master/www/js)
+* [The Bible text](https://github.com/tims-tech/offline-bible/tree/master/www/bible)
+
+
 ## Synopsis
 
 This is an open source mobile Bible app. This app should give users an easy way of accessing the bible on their mobile device. It should not require a login or access the internet in order for it to work. The current supported Bible translation of this app is King James Version (KJV).
 
 ## Motivation
 
-There are plenty of Bible apps out there but very few give the message of salvation or a guide to the Bible verses that give it. The motivation behind this was app is to give message of salvation and present the Word of God.
+There are plenty of Bible apps out there but very few give [the message of salvation](https://github.com/tims-tech/offline-bible/blob/master/www/templates/tab-salvation.html) or a guide to the Bible verses that give it. The motivation behind this was app is to give message of salvation and present the Word of God.
 
 ## In the app store
 
